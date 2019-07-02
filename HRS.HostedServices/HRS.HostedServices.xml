@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HRS.HostedServices</name>
+    </assembly>
+    <members>
+        <member name="T:HRS.HostedServices.HostedQueueService`1">
+            <summary>
+            Abstract class for a hosted queueing service
+            </summary>
+            <typeparam name="T">The type of items to queue</typeparam>
+        </member>
+        <member name="M:HRS.HostedServices.HostedQueueService`1.#ctor(HRS.HostedServices.IServiceQueue{`0},Microsoft.Extensions.Logging.ILogger,HRS.HostedServices.Options.HostedQueueOptions)">
+            <summary>
+            Constructor for hosted queues
+            </summary>
+            <param name="queue">The queue to process</param>
+            <param name="logger">A standard logger to use for reporting errors</param>
+            <param name="options">The options to use for this hosted queue</param>
+        </member>
+        <member name="M:HRS.HostedServices.HostedQueueService`1.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Main loop for dequeue and begining the processing of items
+            </summary>
+            <param name="stoppingToken">Cancellation Token to stop waiting for queued items</param>
+            <returns></returns>
+        </member>
+        <member name="M:HRS.HostedServices.HostedQueueService`1.ProcessItem(`0)">
+            <summary>
+            The main process item task to override. will pass in one item at a time 
+            </summary>
+            <param name="item">The item to process</param>
+        </member>
+        <member name="T:HRS.HostedServices.HostedTimedService">
+            <summary>
+            Abstract class for Timed Service
+            </summary>
+        </member>
+        <member name="M:HRS.HostedServices.HostedTimedService.#ctor(HRS.HostedServices.Options.HostedTimedOptions,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Constructor for timed service
+            </summary>
+            <param name="options">The options for the service</param>
+            <param name="logger">The logger for the service</param>
+        </member>
+        <member name="M:HRS.HostedServices.HostedTimedService.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            Start service
+            </summary>
+            <param name="cancellationToken">Cancellation token to cancel the starting service</param>
+        </member>
+        <member name="M:HRS.HostedServices.HostedTimedService.StopAsync(System.Threading.CancellationToken)">
+            <summary>
+            Stops the service
+            </summary>
+            <param name="cancellationToken">Cancellation token to cancel the stopping of the service</param>
+        </member>
+        <member name="M:HRS.HostedServices.HostedTimedService.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            The function to call at the interval
+            </summary>
+            <param name="stoppingToken">The token to stop processing</param>
+        </member>
+        <member name="M:HRS.HostedServices.HostedTimedService.Dispose">
+            <summary>
+            Disposes of the service
+            </summary>
+        </member>
+        <member name="T:HRS.HostedServices.HostedWarmWebService">
+            <summary>
+            A service to call endpoints on a schedule to keep them warm
+            </summary>
+        </member>
+        <member name="M:HRS.HostedServices.HostedWarmWebService.#ctor(HRS.HostedServices.Options.HostedWarmWebOptions,Microsoft.Extensions.Logging.ILogger{HRS.HostedServices.HostedWarmWebService},System.Func{System.Net.Http.HttpClient})">
+            <summary>
+            Constructs warm web service
+            </summary>
+            <param name="options">The options for the warm web service</param>
+            <param name="logger">The logger for the service</param>
+            <param name="getClient">A function for getting the httpclient, will use the default if null</param>
+        </member>
+        <member name="M:HRS.HostedServices.HostedWarmWebService.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+            Calls the endpoints
+            </summary>
+            <param name="stoppingToken">The cancellation token to stop executing</param>
+            <returns></returns>
+        </member>
+        <member name="M:HRS.HostedServices.HostedWarmWebService.Dispose">
+            <summary>
+            Disposes of the service
+            </summary>
+        </member>
+        <member name="T:HRS.HostedServices.IServiceQueue`1">
+            <summary>
+            Interface for queue used by <see cref="T:HRS.HostedServices.HostedQueueService`1"/>
+            </summary>
+            <typeparam name="T">The type of items to queue</typeparam>
+        </member>
+        <member name="M:HRS.HostedServices.IServiceQueue`1.Enqueue(`0)">
+            <summary>
+            Places an item on the item
+            </summary>
+        </member>
+        <member name="M:HRS.HostedServices.IServiceQueue`1.Dequeue(System.Threading.CancellationToken)">
+            <summary>
+            Removes an item from the queue
+            </summary>
+            <param name="cancellationToken">Cancellation Token to stop waiting for the queue</param>
+        </member>
+        <member name="T:HRS.HostedServices.Options.HostedQueueOptions">
+            <summary>
+            The options for the <see cref="T:HRS.HostedServices.HostedQueueService`1"/>
+            </summary>
+        </member>
+        <member name="P:HRS.HostedServices.Options.HostedQueueOptions.RequeueFailedItems">
+            <summary>
+            Requeue items if an exception is throw defaults to false, which causes the item to be throw away
+            </summary>
+        </member>
+        <member name="P:HRS.HostedServices.Options.HostedQueueOptions.RequeueDelay">
+            <summary>
+            Requeue delay the amount of time before the item is requeued
+            </summary>
+        </member>
+        <member name="P:HRS.HostedServices.Options.HostedQueueOptions.NextItemDelay">
+            <summary>
+            If there should be delay between processing items in the queue
+            </summary>
+        </member>
+        <member name="T:HRS.HostedServices.Options.HostedTimedOptions">
+            <summary>
+            Options for the <see cref="T:HRS.HostedServices.HostedTimedService"/>
+            </summary>
+        </member>
+        <member name="P:HRS.HostedServices.Options.HostedTimedOptions.InitialDelay">
+            <summary>
+            Inital Delay before first execution
+            </summary>
+        </member>
+        <member name="P:HRS.HostedServices.Options.HostedTimedOptions.Interval">
+            <summary>
+            The interval between calls
+            </summary>
+        </member>
+        <member name="T:HRS.HostedServices.Options.HostedWarmWebOptions">
+            <summary>
+            Options for the <see cref="T:HRS.HostedServices.HostedWarmWebService"/>
+            </summary>
+        </member>
+        <member name="P:HRS.HostedServices.Options.HostedWarmWebOptions.BaseUri">
+            <summary>
+            The base uri to use for the endpoints if left blank the endpoints must be complete
+            </summary>
+        </member>
+        <member name="P:HRS.HostedServices.Options.HostedWarmWebOptions.WarmupEndpoints">
+            <summary>
+            The list of endpoints to keep warm
+            </summary>
+        </member>
+        <member name="T:HRS.HostedServices.ServiceQueue`1">
+            <summary>
+            Stnadard implementation of <see cref="T:HRS.HostedServices.IServiceQueue`1"/> for <see cref="T:HRS.HostedServices.HostedQueueService`1"/>
+            </summary>
+            <typeparam name="T">The type of items to queue</typeparam>
+        </member>
+        <member name="P:HRS.HostedServices.ServiceQueue`1.Count">
+            <summary>
+            The number of items in the queue
+            </summary>
+            <remarks>
+            The queue is concurrent so the count should be treated with suspicion
+            </remarks>
+        </member>
+        <member name="P:HRS.HostedServices.ServiceQueue`1.IsEmpty">
+            <summary>
+            Checks to see if the queue is empty
+            </summary>
+            <remarks>
+            The queue is concurrent so the isempty should be treated with suspicion
+            </remarks>
+        </member>
+        <member name="M:HRS.HostedServices.ServiceQueue`1.Enqueue(`0)">
+            <summary>
+            Places an item on the item
+            </summary>
+        </member>
+        <member name="M:HRS.HostedServices.ServiceQueue`1.Dequeue(System.Threading.CancellationToken)">
+            <summary>
+            Removes an item from the queue
+            </summary>
+            <param name="cancellationToken">Cancellation Token to stop waiting for the queue</param>
+        </member>
+    </members>
+</doc>
