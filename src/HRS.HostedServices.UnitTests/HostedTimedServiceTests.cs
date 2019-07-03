@@ -2,10 +2,6 @@
 using HRS.HostedServices.UnitTests.Core;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -28,12 +24,12 @@ namespace HRS.HostedServices.UnitTests
         public async Task TestTimedSimple()
         {
             var totalCount = 0;
-            
-            Func<Task> execute = () =>
+
+            Task execute()
             {
                 totalCount++;
                 return Task.CompletedTask;
-            };
+            }
 
             await RunTest(execute);
             Assert.Equal(5, totalCount);
@@ -46,16 +42,16 @@ namespace HRS.HostedServices.UnitTests
             var errorCount = 0;
 
 
-            Func<Task> execute = () =>
+            Task execute()
             {
                 totalCount++;
-                if(totalCount == 2)
+                if (totalCount == 2)
                 {
                     errorCount++;
                     throw new NotSupportedException();
                 }
                 return Task.CompletedTask;
-            };
+            }
 
             await RunTest(execute);
             Assert.Equal(5, totalCount);
@@ -67,11 +63,11 @@ namespace HRS.HostedServices.UnitTests
         {
             var totalCount = 0;
 
-            Func<Task> execute = async () =>
+            async Task execute()
             {
                 totalCount++;
                 await Task.Delay(50);
-            };
+            }
 
             await RunTest(execute);
             Assert.Equal(3, totalCount);

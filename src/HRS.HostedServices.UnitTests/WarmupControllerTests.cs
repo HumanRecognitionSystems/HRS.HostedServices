@@ -42,6 +42,7 @@ namespace HRS.HostedServices.UnitTests
                         InitialDelay = TimeSpan.FromMilliseconds(500)
                     };
                     services.AddSingleton(options);
+                    var client = new HttpClient { BaseAddress = new Uri("http:") };
                     services.AddSingleton<Func<HttpClient>>(sp => () => server.CreateClient());
                     services.AddHostedService<HostedWarmWebService>();
                 });
