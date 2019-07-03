@@ -79,16 +79,16 @@ namespace HRS.HostedServices
                     _timer.Change(_options.Interval, TimeSpan.FromMilliseconds(-1));
                 }
             }).ContinueWith(t =>
-            {
-                try
                 {
-                    t.Wait();
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Failed to Execute task");
-                }
-            }, TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnFaulted);
+                    try
+                    {
+                        t.Wait();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to Execute task");
+                    }
+                }, TaskContinuationOptions.ExecuteSynchronously | TaskContinuationOptions.OnlyOnFaulted);
         }
 
         /// <summary>
@@ -103,6 +103,7 @@ namespace HRS.HostedServices
         public virtual void Dispose()
         {
             _timer.Dispose();
+            _tokenSource.Dispose();
         }
     }
 }

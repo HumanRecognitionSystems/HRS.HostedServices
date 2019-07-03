@@ -70,7 +70,7 @@ namespace HRS.HostedServices
         {
             if (_options.RequeueDelay != TimeSpan.Zero)
             {
-                Task.Run(async () =>
+                _ = Task.Run(async () =>
                 {
                     await Task.Delay(_options.RequeueDelay);
                     _queue.Enqueue(item);
