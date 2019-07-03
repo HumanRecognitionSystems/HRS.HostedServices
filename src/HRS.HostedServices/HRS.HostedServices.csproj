@@ -8,6 +8,10 @@
     <Version>1.0.0</Version>
     <LangVersion>latest</LangVersion>
     <PackageReleaseNotes>The initial release</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/HumanRecognitionSystems/HRS.HostedServices.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/HumanRecognitionSystems/HRS.HostedServices</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

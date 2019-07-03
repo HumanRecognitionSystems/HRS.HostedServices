@@ -79,16 +79,16 @@ namespace HRS.HostedServices.UnitTests
             var totalCount = 0;
             var errorCount = 0;
 
-            Func<Task> execute = async () =>
+            async Task execute()
             {
                 totalCount++;
                 await Task.Delay(50);
-                if(totalCount == 2)
+                if (totalCount == 2)
                 {
                     errorCount++;
                     throw new NotSupportedException();
                 }
-            };
+            }
 
             await RunTest(execute);
             Assert.Equal(3, totalCount);
